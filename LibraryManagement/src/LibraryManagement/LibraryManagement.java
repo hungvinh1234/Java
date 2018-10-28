@@ -16,14 +16,16 @@ public class LibraryManagement {
      */
     public static void main(String[] args) throws SQLException {
         // TODO code application logic here
-        JDBC j = new JDBC();
-        String sql = "Select * from books";
-        j.open();
-        Object[][] x = j.getObjectData(sql);
-        System.out.println(Arrays.deepToString(x));
-        
-        Object[] y = j.getArrayColName(sql);
-        System.out.println(Arrays.deepToString(y));
+//        JDBC j = new JDBC();
+//        String sql = "Select * from books";
+//        j.open();
+//        Object[][] x = j.getObjectData(sql);
+//        System.out.println(Arrays.deepToString(x));
+//        
+//        Object[] y = j.getArrayColName(sql);
+//        System.out.println(Arrays.deepToString(y));
+        Login loginScreen = new Login();
+        loginScreen.setVisible(true);
     }
     
 }
