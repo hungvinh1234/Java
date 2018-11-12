@@ -44,6 +44,10 @@ public class JDBC {
         }
     }
     
+    public void JDBC(){
+        open();
+    }
+    
     public void open(){
         try {
             Driver driver = new org.gjt.mm.mysql.Driver();// nap driver 
@@ -97,6 +101,9 @@ public class JDBC {
             //get the row number
             rs.last();
             int num_row = rs.getRow();
+            if(num_row == 0){
+                return data;
+            }
             
             //get the col number
             ResultSetMetaData rsmd = rs.getMetaData();

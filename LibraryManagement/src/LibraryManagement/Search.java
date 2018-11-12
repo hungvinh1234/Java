@@ -5,6 +5,9 @@
  */
 package LibraryManagement;
 
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author duong
@@ -31,18 +34,18 @@ public class Search extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtSearch = new javax.swing.JTextField();
+        jBtnSearch = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         JDBC jDB = new JDBC();
-        String sql = "Select * from books";
+        String sql = "Select b.id, b.name, a.name, b.description, b.price from books b JOIN authors a ON b.author = a.id";
         jDB.open();
         Object[][] arrayBook = jDB.getObjectData(sql);
 
-        String[] arrayTitle = new String[] {"ID", "Name", "Author", "Publisher", "Des", "Total", "Price", "Date"};
+        String[] arrayTitle = new String[] {"ID", "Tên", "Tác giả", "Mô tả", "Giá"};
         jTable1.setModel(new javax.swing.table.DefaultTableModel(arrayBook, arrayTitle));
         jScrollPane1.setViewportView(jTable1);
 
@@ -63,13 +66,23 @@ public class Search extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtSearchActionPerformed(evt);
+            }
+        });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
             }
         });
 
-        jButton1.setText("Search");
+        jBtnSearch.setText("Search");
+        jBtnSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jBtnSearchMouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -82,9 +95,9 @@ public class Search extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jTextField1)
+                .addComponent(txtSearch)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(jBtnSearch)
                 .addGap(50, 50, 50))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(288, 288, 288)
@@ -98,8 +111,8 @@ public class Search extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtnSearch))
                 .addGap(10, 10, 10))
         );
 
@@ -126,10 +139,35 @@ public class Search extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtSearchActionPerformed
 
+    private void jBtnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnSearchMouseClicked
+        // TODO add your handling code here:
+        search();
+    }//GEN-LAST:event_jBtnSearchMouseClicked
+
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            search();
+        }
+    }//GEN-LAST:event_txtSearchKeyPressed
+
+    public void search(){
+        String inputSearch = txtSearch.getText();
+        JDBC db = new JDBC();
+        String sql = "Select b.id, b.name, a.name, b.description, b.price "
+                + " From books b JOIN authors a ON b.author = a.id "
+                + " Where b.name like '%" + inputSearch + "%' ";
+                //+ " Or b.description like '%" + inputSearch + "%'";
+                //+ " Or a.name like '%" + inputSearch + "%'";
+        Object[][] arrayBook = db.getObjectData(sql);
+        String[] arrayTitle = new String[] {"ID", "Tên", "Tác giả", "Mô tả", "Giá"};
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(arrayBook, arrayTitle));
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -166,12 +204,12 @@ public class Search extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jBtnSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
