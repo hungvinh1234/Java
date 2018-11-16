@@ -16,39 +16,35 @@ public class JDBC {
     static final String DB_USER     = "root";
     static final String DB_PASSWD   = "123";
     
-    private static Connection conn   = null;
-    private static Statement stmt    = null;
-    private static ResultSet rs      = null;
+    public Connection conn   = null;
+    public Statement stmt    = null;
+    public ResultSet rs      = null;
 
-    public static void main(String[] args) throws SQLException
-    {
-        try{
-            Driver driver = new org.gjt.mm.mysql.Driver();// nap driver 
-            DriverManager.registerDriver(driver);// dang ky driver 
-            
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM books");
-            System.out.println(1);
-            int columnsNumber = 2;
-            while(rs.next()){
-                for (int i = 1; i <= columnsNumber; i++) {
-                    if (i > 1) System.out.print(",  ");
-                    String columnValue = rs.getString(i);
-                    System.out.print(columnValue + " ");
-                }
-                System.out.println("");
-            }
-        } catch (SQLException e){
-            throw e;
-        }
-    }
+//    public static void main(String[] args) throws SQLException
+//    {
+//        try{
+//            Driver driver = new org.gjt.mm.mysql.Driver();// nap driver 
+//            DriverManager.registerDriver(driver);// dang ky driver 
+//            
+//            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
+//            stmt = conn.createStatement();
+//            rs = stmt.executeQuery("SELECT * FROM books");
+//            System.out.println(1);
+//            int columnsNumber = 2;
+//            while(rs.next()){
+//                for (int i = 1; i <= columnsNumber; i++) {
+//                    if (i > 1) System.out.print(",  ");
+//                    String columnValue = rs.getString(i);
+//                    System.out.print(columnValue + " ");
+//                }
+//                System.out.println("");
+//            }
+//        } catch (SQLException e){
+//            throw e;
+//        }
+//    }
     
-    public void JDBC(){
-        open();
-    }
-    
-    public void open(){
+    public JDBC(){
         try {
             Driver driver = new org.gjt.mm.mysql.Driver();// nap driver 
             DriverManager.registerDriver(driver);// dang ky driver 
@@ -146,5 +142,14 @@ public class JDBC {
             getSqlError(ex);
         }
         return data;
+    }
+    
+    public void execute(String sql){
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+        } catch (SQLException ex) {
+            getSqlError(ex);
+        }
     }
 }
