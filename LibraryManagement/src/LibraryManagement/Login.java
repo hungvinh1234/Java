@@ -71,7 +71,6 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(1, 1, 1));
         jLabel2.setText("Tên đăng nhập: ");
 
-        jTextField1.setCaretColor(new java.awt.Color(254, 254, 254));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -170,7 +169,7 @@ public class Login extends javax.swing.JFrame {
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             if(login()){
                 this.setVisible(false);
-                new Search().setVisible(true);
+                new Homepage().setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Thông tin đăng nhập sai!", "Thông báo", 1);
             }
