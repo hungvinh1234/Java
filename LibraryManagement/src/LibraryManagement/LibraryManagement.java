@@ -24,6 +24,7 @@ public class LibraryManagement {
 //        
 //        Object[] y = j.getArrayColName(sql);
 //        System.out.println(Arrays.deepToString(y));
+        
         Login loginScreen = new Login();
         loginScreen.setVisible(true);
     }

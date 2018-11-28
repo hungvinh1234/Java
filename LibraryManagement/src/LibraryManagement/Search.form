@@ -95,7 +95,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="JDBC jDB = new JDBC();&#xa;String sql = &quot;Select id, name, author, description, price from books&quot;;&#xa;Object[][] arrayBook = jDB.getObjectData(sql);&#xa;&#xa;String[] arrayTitle = new String[] {&quot;ID&quot;, &quot;T&#xea;n&quot;, &quot;T&#xe1;c gi&#x1ea3;&quot;, &quot;M&#xf4; t&#x1ea3;&quot;, &quot;Gi&#xe1;&quot;};"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="JDBC jDB = new JDBC();&#xa;String sql = &quot;Select id, name, author, description from books&quot;;&#xa;Object[][] arrayBook = jDB.getObjectData(sql);&#xa;&#xa;String[] arrayTitle = new String[] {&quot;ID&quot;, &quot;T&#xea;n&quot;, &quot;T&#xe1;c gi&#x1ea3;&quot;, &quot;M&#xf4; t&#x1ea3;&quot;};"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -124,7 +124,9 @@
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="204" max="-2" attributes="0"/>
                   <Component id="jLabel1" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" pref="228" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="144" max="-2" attributes="0"/>
+                  <Component id="btnAddBook" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -138,7 +140,10 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="btnAddBook" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace pref="15" max="32767" attributes="0"/>
@@ -191,6 +196,14 @@
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton1MouseClicked"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnAddBook">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAddBookMouseClicked"/>
           </Events>
         </Component>
       </SubComponents>

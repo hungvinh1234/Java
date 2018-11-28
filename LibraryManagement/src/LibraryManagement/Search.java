@@ -38,6 +38,7 @@ public class Search extends javax.swing.JFrame {
         jBtnSearch = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        btnAddBook = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(154, 195, 202));
@@ -45,10 +46,10 @@ public class Search extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(154, 195, 202));
 
         JDBC jDB = new JDBC();
-        String sql = "Select id, name, author, description, price from books";
+        String sql = "Select id, name, author, description from books";
         Object[][] arrayBook = jDB.getObjectData(sql);
 
-        String[] arrayTitle = new String[] {"ID", "Tên", "Tác giả", "Mô tả", "Giá"};
+        String[] arrayTitle = new String[] {"ID", "Tên", "Tác giả", "Mô tả"};
         jTable1.setModel(new javax.swing.table.DefaultTableModel(arrayBook, arrayTitle));
         jTable1.setEnabled(false);
         jScrollPane1.setViewportView(jTable1);
@@ -105,6 +106,13 @@ public class Search extends javax.swing.JFrame {
             }
         });
 
+        btnAddBook.setText("Thêm");
+        btnAddBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddBookMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -120,7 +128,9 @@ public class Search extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addGap(204, 204, 204)
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(228, 228, 228))
+                .addGap(144, 144, 144)
+                .addComponent(btnAddBook)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,7 +141,9 @@ public class Search extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton1)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAddBook)
+                            .addComponent(jButton1))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -182,16 +194,22 @@ public class Search extends javax.swing.JFrame {
         new Homepage().setVisible(true);
     }//GEN-LAST:event_jButton1MouseClicked
 
+    private void btnAddBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddBookMouseClicked
+        // TODO add your handling code here:
+        new crud_books("Thêm sách","OK").setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnAddBookMouseClicked
+
     public void search(){
         String inputSearch = txtSearch.getText();
         JDBC db = new JDBC();
-        String sql = "Select id, name, author, description, price "
+        String sql = "Select id, name, author, description "
                 + " From books"
                 + " Where name like '%" + inputSearch + "%' ";
                 //+ " Or b.description like '%" + inputSearch + "%'";
                 //+ " Or a.name like '%" + inputSearch + "%'";
         Object[][] arrayBook = db.getObjectData(sql);
-        String[] arrayTitle = new String[] {"ID", "Tên", "Tác giả", "Mô tả", "Giá"};
+        String[] arrayTitle = new String[] {"ID", "Tên", "Tác giả", "Mô tả"};
         jTable1.setModel(new javax.swing.table.DefaultTableModel(arrayBook, arrayTitle));
     }
     
@@ -231,6 +249,7 @@ public class Search extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddBook;
     private javax.swing.JButton jBtnSearch;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
