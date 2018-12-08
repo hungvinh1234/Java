@@ -64,4 +64,22 @@ public class Books {
         }
     }
     
+    // Update a user to database
+    public boolean update(){
+        try {
+            JDBC db = new JDBC();
+            PreparedStatement stm = db.conn.prepareStatement("INSERT INTO books (name, author, type, publisher, description, latest_import) VALUES (?,?,?,?,?,?)");
+            stm.setString(1, name);
+            stm.setString(2, author);
+            stm.setString(3, type);
+            stm.setString(4, publisher);
+            stm.setString(5, description);
+            stm.setString(6, latest_import);
+            stm.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 }

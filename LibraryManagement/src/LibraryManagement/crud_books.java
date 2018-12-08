@@ -21,6 +21,8 @@ public class crud_books extends javax.swing.JFrame {
      */
     public String lblTitle;
     public String btnText;
+    public int type;
+    public int id;
             
     public crud_books() {
         initComponents();
@@ -226,11 +228,25 @@ public class crud_books extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nhà xuất bản không được để trống");
             return;
         }
-        Books b = new Books(name, author, type, publisher, des);
-        if(b.save()){
-            JOptionPane.showMessageDialog(null, "Thêm sách thành công!");
+        if(this.type == Constant.type_update){
+            String sql = "Update books set "
+                    + " name         = '" + name      + "'"
+                    + ", author      = '" + author    + "'"
+                    + ", type        = '" + type      + "'"
+                    + ", publisher   = '" + publisher + "'"
+                    + ", description = '" + des       + "'"
+                    + " Where id     = " + id;
+            JDBC jDB = new JDBC();
+            jDB.execute(sql);
+            JOptionPane.showMessageDialog(null, "Cập nhật thành công!");
+        } else {
+            Books b = new Books(name, author, type, publisher, des);
+            if(b.save()){
+                JOptionPane.showMessageDialog(null, "Thêm sách thành công!");
+            }
         }
-        
+        this.setVisible(false);
+        new Search().setVisible(true);
     }//GEN-LAST:event_btnConfirmMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -243,6 +259,24 @@ public class crud_books extends javax.swing.JFrame {
         initComponents();
         txtTitle.setText(title);
         btnConfirm.setText(btnText);
+    }
+    
+    public crud_books(String title, String btnText, int type, int id) throws HeadlessException {
+        initComponents();
+        txtTitle.setText(title);
+        btnConfirm.setText(btnText);
+        this.type = type;
+        this.id   = id;
+        if(this.type == Constant.type_update){
+            String sql = "Select name, author, type, publisher, description from books where id = " + id;
+            JDBC jDB = new JDBC();
+            Object[][] book = jDB.getObjectData(sql);
+            txtName.setText( (String) book[0][0] );
+            txtAuthor.setText( (String) book[0][1] );
+            txtType.setText( (String) book[0][2] );
+            txtPublisher.setText( (String) book[0][3] );
+            txtDes.setText( (String) book[0][4] );
+        }
     }
 
     /**

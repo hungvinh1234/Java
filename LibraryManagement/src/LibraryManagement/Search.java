@@ -5,8 +5,9 @@
  */
 package LibraryManagement;
 
+import java.awt.Point;
 import java.awt.event.KeyEvent;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  *
@@ -33,6 +34,8 @@ public class Search extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         txtSearch = new javax.swing.JTextField();
         jBtnSearch = new javax.swing.JButton();
@@ -45,30 +48,61 @@ public class Search extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(154, 195, 202));
 
+        jTable1.setDefaultEditor(Object.class, null);
         JDBC jDB = new JDBC();
         String sql = "Select id, name, author, description from books";
         Object[][] arrayBook = jDB.getObjectData(sql);
 
         String[] arrayTitle = new String[] {"ID", "Tên", "Tác giả", "Mô tả"};
         jTable1.setModel(new javax.swing.table.DefaultTableModel(arrayBook, arrayTitle));
-        jTable1.setEnabled(false);
+        jTable1.setRowHeight(25);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+
+        btnEdit.setText("Sửa");
+        btnEdit.setEnabled(false);
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditMouseClicked(evt);
+            }
+        });
+
+        btnDelete.setText("Xóa");
+        btnDelete.setEnabled(false);
+        btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
+                .addGap(54, 54, 54)
                 .addComponent(jScrollPane1)
-                .addGap(50, 50, 50))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(42, 42, 42))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnEdit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDelete))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(154, 195, 202));
@@ -200,6 +234,41 @@ public class Search extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnAddBookMouseClicked
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        btnEdit.setEnabled(true);
+        btnDelete.setEnabled(true);
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
+        int selectedRow = jTable1.getSelectedRow();
+        String sql = "Select id, name, author, description from books";
+        JDBC jDB = new JDBC();
+        Object[][] book = jDB.getObjectData(sql);
+        int id = Integer.parseInt((String)book[selectedRow][0]);
+        new crud_books("Cập nhật thông tin sách", "Cập nhật", Constant.type_update, id).setVisible(true);
+    }//GEN-LAST:event_btnEditMouseClicked
+
+    private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+        String sql = "Select id, name, author, description from books";
+        JDBC jDB = new JDBC();
+        Object[][] arrayBook = jDB.getObjectData(sql);
+        sql = "Delete from books where id = " + arrayBook[selectedRow][0];
+        jDB.execute(sql);
+        refreshTable();
+    }//GEN-LAST:event_btnDeleteMouseClicked
+
+    public void refreshTable(){
+        JDBC jDB = new JDBC();
+        String sql = "Select id, name, author, description from books";
+        Object[][] arrayBook = jDB.getObjectData(sql);
+
+        String[] arrayTitle = new String[] {"ID", "Tên", "Tác giả", "Mô tả"};
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(arrayBook, arrayTitle));
+    }
+    
     public void search(){
         String inputSearch = txtSearch.getText();
         JDBC db = new JDBC();
@@ -250,6 +319,8 @@ public class Search extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBook;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JButton jBtnSearch;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
